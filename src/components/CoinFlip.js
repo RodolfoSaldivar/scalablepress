@@ -14,10 +14,10 @@ class CoinFlip extends Component
 //----> Recursive function that returns a random number between two numbers
 	randomNumber = (min, max) =>
 	{
-		// If the 2 numbers are the same, it means there is no more division to do
+		// If the 2 numbers are the same, it means there is no more divisions to do
 		if (min === max) return min;
 
-		// If the difference between the 2 numbers is 1; just flip the coin to chose the min or max
+		// If the difference between the 2 numbers is 1; just flip the coin to choose the min or max
 		if (max-min === 1) if (this.flip()) return min; else return max;
 
 		// Get the middle between the difference of the numbers
@@ -44,12 +44,7 @@ class CoinFlip extends Component
 	{
 		const { random } = this.state;
 		if (random === "") return;
-
-		return (
-			<div>
-				Random: { random }
-			</div>
-		);
+		return `Random: ${ random }`;
 	};
 
 //----> Render method that outputs everything
@@ -72,9 +67,7 @@ class CoinFlip extends Component
 
 				<div style={{marginTop: "30px"}} />
 
-				<div>
-					{ this.displayRandom() }
-				</div>
+				{ this.displayRandom() }
 
 			</div>
 		);
