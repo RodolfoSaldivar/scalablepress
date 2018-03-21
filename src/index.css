@@ -1,0 +1,33 @@
+body {
+	margin: 0 !important;
+	font-family: "Roboto", "Helvetica", "Arial", sans-serif !important;
+}
+
+.contenedor {
+    width: 90% !important;
+    margin: 0 auto !important;
+}
+
+.valign {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.cuadros {
+    border-radius: 25px;
+    border: 2px solid black;
+    padding: 20px; 
+    width: 100px;
+    height: 100px;
+    margin-left: 20px;    
+}
+
+.left {
+	float: left;
+}
