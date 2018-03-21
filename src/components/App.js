@@ -2,82 +2,81 @@ import React, { Component } from 'react';
 
 class App extends Component
 {
-//----> Se definen los parametros
+//----> Parameters are defined
 	constructor(props) {
 		super(props);
 		this.state = {
-			dias: 0,
-			horas: 0,
-			minutos: 0,
-			segundos: 0,
-			dias_form: 0,
-			horas_form: 0,
-			minutos_form: 0,
-			segundos_form: 0
+			days: 0,
+			hours: 0,
+			minutes: 0,
+			seconds: 0,
+			days_form: 0,
+			hours_form: 0,
+			minutes_form: 0,
+			seconds_form: 0
 		};
 	}
 
-//----> Cuando se llama empieza el contador
-	empezarContador = () =>
+//----> Counter starts when called
+	startCounter = () =>
 	{
-		this.pararContador();
-		const { dias_form, horas_form, minutos_form, segundos_form } = this.state;
+		this.stopCounter();
+		const { days_form, hours_form, minutes_form, seconds_form } = this.state;
 		this.setState({
-			dias: dias_form,
-			horas: horas_form,
-			minutos: minutos_form,
-			segundos: segundos_form
+			days: days_form,
+			hours: hours_form,
+			minutes: minutes_form,
+			seconds: seconds_form
 		});
-		this.contador = setInterval(this.cuentaRegresiva, 1000);
+		this.counter = setInterval(this.countdown, 1000);
 	};
 
-//----> Para el contador
-	pararContador = () => clearInterval(this.contador);
+//----> Stops the counter
+	stopCounter = () => clearInterval(this.counter);
 
-//----> Funcion que resta minutos y pone segundos
-	restarMinutos = (minutos, segundos) => this.setState({ minutos: minutos-1, segundos: 59 });
+//----> Function that substracts minutes and puts seconds
+	substractMinutes = (minutes, seconds) => this.setState({ minutes: minutes-1, seconds: 59 });
 
-//----> Funcion que resta horas y pone minutos y segundos
-	restarHoras = (horas, minutos, segundos) => this.setState({ horas: horas-1, minutos: 59, segundos: 59 });
+//----> Function that substracts hours and puts minutes and seconds
+	substractHours = (hours, minutes, seconds) => this.setState({ hours: hours-1, minutes: 59, seconds: 59 });
 
-//----> Toda la logica del contador
-	cuentaRegresiva = () =>
+//----> All the countdown logic
+	countdown = () =>
 	{
-		let { dias, horas, minutos, segundos } = this.state;
+		let { days, hours, minutes, seconds } = this.state;
 
-		// Si todos son 0 hay que parar el contador
-		if (dias === 0 && horas === 0 && minutos === 0 && segundos === 0) return this.pararContador();
+		// If everything is 0 the counter stops
+		if (days == 0 && hours == 0 && minutes == 0 && seconds == 0) return this.stopCounter();
 
-		segundos--;
+		seconds--;
 
-		// Si segundos es mayor o igual a 0, actualiza el estado y termina el proceso
-		if (segundos >= 0) return this.setState({ segundos });
+		// If seconds is greater or igual to 0, updates the state and finishes the process
+		if (seconds >= 0) return this.setState({ seconds });
 
-		// Si segundos es menor de 0 y aun quedan minutos
-		if (minutos > 0) return this.restarMinutos(minutos, segundos);
+		// If seconds is less than 0 and there are minutes left
+		if (minutes > 0) return this.substractMinutes(minutes, seconds);
 		
-		// Si segundos es menor de 0 y aun quedan horas
-		if (horas > 0) return this.restarHoras(horas, minutos, segundos);
+		// If seconds is less than 0 and there are hours left
+		if (hours > 0) return this.substractHours(hours, minutes, seconds);
 		
-		// Si segundos es menor de 0 y ya no queda nada mas que dias para restar
-		dias--;
-		horas = 23;
-		minutos = segundos = 59;
-
-		this.setState({ dias, horas, minutos, segundos });
+		// If seconds is less than 0 and there is no more than days to substract
+		days--;
+		hours = 23;
+		minutes = seconds = 59;
+		this.setState({ days, hours, minutes, seconds });
 	};
 
-//----> Cuando cambia los input se ponen en el state
+//----> When the input changes, it is set to the state
 	handleChange = (event, key, min, max) =>
 	{
-		let valor = event.target.value;
-		if (valor < min) valor = min;
-		if (valor > max) valor = max;
-		this.setState({ [key]: valor });
+		let { value } = event.target;
+		if (value < min) value = min;
+		if (value > max) value = max;
+		this.setState({ [key]: value });
 	};
 
-//----> Despliega los inputs para cada seccion
-	desplegarInput = (label, key, min, max) =>
+//----> Displays the input for each section
+	displayInput = (label, key, min, max) =>
 	(
 		<span>
 			{ label }
@@ -90,36 +89,38 @@ class App extends Component
 		</span>
 	);
 
-//----> Despliega los cuadros donde se vera el contador
-	desplegarCuadros = (key) =>
+//----> Displays the squares where the countdown is seen
+	displaySquare = (key) =>
 	(
-		<div className="cuadros valign left">
+		<div className="square valign left">
 			{ this.state[key] }
 		</div>
 	);
 
+//----> Render method that outputs everything
 	render()
 	{
 		return (
-			<div className="contenedor">
+			<div className="container">
+
 				<div style={{marginTop: "60px"}} />
 				<span style={{marginLeft: "40px"}} />
 
-				{ this.desplegarInput('Días: ', 'dias_form', 0, 50) }
-				{ this.desplegarInput('Horas: ', 'horas_form', 0, 23) }
-				{ this.desplegarInput('Minutos: ', 'minutos_form', 0, 59) }
-				{ this.desplegarInput('Segundos: ', 'segundos_form', 0, 59) }
+				{ this.displayInput('Days: ', 'days_form', 0, 50) }
+				{ this.displayInput('Hours: ', 'hours_form', 0, 23) }
+				{ this.displayInput('Minutes: ', 'minutes_form', 0, 59) }
+				{ this.displayInput('Seconds: ', 'seconds_form', 0, 59) }
 
-				<button onClick={this.empezarContador}>
-					Empezar
+				<button onClick={ this.startCounter }>
+					Start
 				</button>
 
 				<div style={{marginTop: "60px"}} />
 
-				{ this.desplegarCuadros('dias') }
-				{ this.desplegarCuadros('horas') }
-				{ this.desplegarCuadros('minutos') }
-				{ this.desplegarCuadros('segundos') }
+				{ this.displaySquare('days') }
+				{ this.displaySquare('hours') }
+				{ this.displaySquare('minutes') }
+				{ this.displaySquare('seconds') }
 
 			</div>
 		);
