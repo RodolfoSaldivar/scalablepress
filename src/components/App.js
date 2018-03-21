@@ -92,8 +92,9 @@ class App extends Component
 //----> Displays the squares where the countdown is seen
 	displaySquare = (key) =>
 	(
-		<div className="square valign left">
-			{ this.state[key] }
+		<div className="square center left">
+			<h2>{ this.state[key] }</h2>
+			<p>{ key }</p>
 		</div>
 	);
 
